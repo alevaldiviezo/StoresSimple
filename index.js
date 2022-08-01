@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 
 
 const Product = require('./models/product');
+const Store = require('./models/store');
 
 mongoose.connect('mongodb://localhost:27017/productStore')
     .then(() => {
@@ -23,6 +24,24 @@ app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'))
 
 const categories = ['electronics', 'sports', 'cars', 'bikes', 'beauty', 'services'];
+
+//STORE ROUTES
+
+app.get('/stores', async (req, res) => {
+    const stores = await Store.find({});
+    res.render('stores/index', { stores })
+})
+
+app.get('/stores/new', (req,res) => {
+    res.render('stores/new');
+})
+
+app.post('/stores', async (req, res) => {
+    const store = new Store(req.body);
+    await store.save();
+    res.redirect('/stores')
+})
+//PRODUCTS ROUTES
 
 app.get('/products', async (req,res) => {
     const {category} = req.query;
