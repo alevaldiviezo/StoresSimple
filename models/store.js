@@ -14,10 +14,12 @@ const storeSchema = new Schema({
         required:[true, 'Email required please!']
     },
     //we include the product parameter as an object to relate with the product db
-    product:{
-        type: Schema.Types.ObjectId,
-        ref:'Product'
-    }
+    products:[
+        {
+            type: Schema.Types.ObjectId,
+            ref:'Product'
+        }
+    ]
 })
 
 const Store = mongoose.model('Store', storeSchema);

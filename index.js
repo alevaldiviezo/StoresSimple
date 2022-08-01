@@ -46,6 +46,26 @@ app.post('/stores', async (req, res) => {
     await store.save();
     res.redirect('/stores')
 })
+
+app.get('/stores/:id/products/new', (req, res) => {
+    const { id } = req.params;
+    // const store = await Store.findById(id);
+    res.render('products/new', { categories, id})
+})
+
+app.post('/stores/:id/products', async (req, res) => {
+    const { id } = req.params;
+    const store = await Store.findById(id);
+    const { name, price, category } = req.body;
+    const product = new Product({ name, price, category });
+    store.products.push(product);
+    product.store = store;
+    await store.save();
+    await product.save();
+    res.send(store);
+    // res.redirect(`/stores/${id}`)
+})
+
 //PRODUCTS ROUTES
 
 app.get('/products', async (req,res) => {
