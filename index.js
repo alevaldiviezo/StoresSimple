@@ -32,6 +32,11 @@ app.get('/stores', async (req, res) => {
     res.render('stores/index', { stores })
 })
 
+app.get('/stores/:id', async (req, res) => {
+    const store = await Store.findById(req.params.id);
+    res.render('stores/show', { store })
+})
+
 app.get('/stores/new', (req,res) => {
     res.render('stores/new');
 })
