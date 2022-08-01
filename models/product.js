@@ -16,6 +16,11 @@ const productSchema = new Schema({
         lowercase: true,
         enum:['electronics', 'sports', 'cars', 'bikes', 'beauty', 'services']
     },
+    //we include the store parameter as an object
+    store:{
+        type: Schema.Types.ObjectId,
+        ref: 'Store'
+    }
 
 });
 
