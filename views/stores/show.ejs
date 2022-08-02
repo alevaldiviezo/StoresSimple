@@ -14,6 +14,14 @@
         <li>Email:<%= store.email%></li>
 
     </ul>
+    <h2>Products</h2>
+    <ul>
+        <% for(let product of store.products) {%>
+        <li><a href="/products/<%=product._id%>"><%=product.name%></a></li>
+        <% } %>
+    </ul>
+    
+    <a href="/stores/<%=store._id%>/products/new">Add Product</a>
     <a href="/stores">All Stores</a>
     
 </body>

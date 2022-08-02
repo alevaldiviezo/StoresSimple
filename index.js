@@ -32,14 +32,16 @@ app.get('/stores', async (req, res) => {
     res.render('stores/index', { stores })
 })
 
-app.get('/stores/:id', async (req, res) => {
-    const store = await Store.findById(req.params.id);
-    res.render('stores/show', { store })
-})
-
 app.get('/stores/new', (req,res) => {
     res.render('stores/new');
 })
+
+app.get('/stores/:id', async (req, res) => {
+    const store = await Store.findById(req.params.id).populate('products');
+    res.render('stores/show', { store })
+})
+
+
 
 app.post('/stores', async (req, res) => {
     const store = new Store(req.body);
@@ -47,10 +49,10 @@ app.post('/stores', async (req, res) => {
     res.redirect('/stores')
 })
 
-app.get('/stores/:id/products/new', (req, res) => {
+app.get('/stores/:id/products/new', async (req, res) => {
     const { id } = req.params;
-    // const store = await Store.findById(id);
-    res.render('products/new', { categories, id})
+    const store = await Store.findById(id);
+    res.render('products/new', { categories, store})
 })
 
 app.post('/stores/:id/products', async (req, res) => {
@@ -62,8 +64,7 @@ app.post('/stores/:id/products', async (req, res) => {
     product.store = store;
     await store.save();
     await product.save();
-    res.send(store);
-    // res.redirect(`/stores/${id}`)
+    res.redirect(`/stores/${id}`)
 })
 
 //PRODUCTS ROUTES
@@ -93,7 +94,7 @@ app.post('/products', async (req, res) => {
 
 app.get('/products/:id', async (req, res) => {
     const { id } = req.params;
-    const product = await Product.findById(id);
+    const product = await Product.findById(id).populate('store', 'name');
     res.render('products/show', { product })
 })
 
