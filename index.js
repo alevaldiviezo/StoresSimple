@@ -41,7 +41,11 @@ app.get('/stores/:id', async (req, res) => {
     res.render('stores/show', { store })
 })
 
-
+app.delete('/stores/:id', async (req,res) => {
+    console.log('DELETING!!!');
+    const store = await Store.findByIdAndDelete(req.params.id);
+    res.redirect('/stores');
+})
 
 app.post('/stores', async (req, res) => {
     const store = new Store(req.body);

@@ -23,6 +23,7 @@
     
     <a href="/stores/<%=store._id%>/products/new">Add Product</a>
     <a href="/stores">All Stores</a>
-    
+    <form action="/stores/<%=store._id%>?_method=DELETE" method=POST>
+        <button class="btn-danger">Delete</button></form>
 </body>
 </html>
